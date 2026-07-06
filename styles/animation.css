@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Animations — Keyframes & utility animation classes
+   ========================================================================== */
+
+/* ── Keyframes ── */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(94, 234, 212, 0.3); }
+  50%       { box-shadow: 0 0 20px rgba(94, 234, 212, 0.6); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Utility classes ── */
+
+.animate-fade-in   { animation: fade-in 0.3s ease forwards; }
+.animate-fade-up   { animation: fade-up 0.5s ease forwards; }
+.animate-fade-down { animation: fade-down 0.4s ease forwards; }
+.animate-scale-in  { animation: scale-in 0.3s ease forwards; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Gradient text utility */
+.text-gradient {
+  background: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: var(--color-bg-overlay);
+  backdrop-filter: var(--navbar-blur);
+  -webkit-backdrop-filter: var(--navbar-blur);
+  border: 1px solid var(--color-border-muted);
+}
+
+/* Focus ring utility */
+.focus-ring {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
