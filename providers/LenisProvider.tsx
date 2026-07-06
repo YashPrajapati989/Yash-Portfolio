@@ -9,9 +9,6 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Initialize Lenis
     const lenis = new Lenis({
-      direction: "vertical",
-      gestureDirection: "vertical",
-      smooth: true,
       mouseMultiplier: 1,
       smoothTouch: false, // Don't interfere with native touch scrolling
       touchMultiplier: 2,
