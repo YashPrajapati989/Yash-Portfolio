@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, BookOpen, ExternalLink, Github, CheckCircle2, Clock, CircleDashed } from "lucide-react";
+import { Award, BookOpen, ExternalLink, GitBranch, CheckCircle2, Clock, CircleDashed } from "lucide-react";
 import { Container, Section, Heading, Text, Card, Badge } from "@/components/ui";
 import { staggerContainerVariants, staggerItemVariants } from "@/lib/constants/animation";
 import { certifications, learningJourney, githubUsername } from "@/data/achievements";
@@ -53,7 +53,7 @@ export function Achievements() {
               <Card hover className="p-6 md:p-8 bg-[var(--color-bg-elevated)] border-[var(--color-border)] h-full">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-bg-surface)] text-[var(--color-text-primary)]">
-                    <Github className="h-5 w-5" />
+                    <GitBranch className="h-5 w-5" />
                   </div>
                   <Heading as="h3" className="text-xl font-semibold">GitHub Activity</Heading>
                 </div>
