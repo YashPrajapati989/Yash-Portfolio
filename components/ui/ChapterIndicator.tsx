@@ -8,13 +8,14 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 // Chapter registry — maps section id → chapter info
 // ---------------------------------------------------------------------------
 const chapters: Record<string, { number: string; label: string }> = {
-  home:     { number: "01", label: "First Contact" },
-  overview: { number: "02", label: "Overview" },
-  about:    { number: "03", label: "The Explorer" },
-  skills:   { number: "04", label: "The Toolbox" },
-  journey:  { number: "05", label: "The Journey" },
-  projects: { number: "06", label: "Mission Archive" },
-  contact:  { number: "07", label: "Next Chapter" },
+  home:        { number: "01", label: "First Contact" },
+  overview:    { number: "02", label: "Overview" },
+  about:       { number: "03", label: "The Explorer" },
+  skills:      { number: "04", label: "The Toolbox" },
+  journey:     { number: "05", label: "The Journey" },
+  projects:    { number: "06", label: "Mission Archive" },
+  engineering: { number: "07", label: "Engineering" },
+  contact:     { number: "08", label: "Next Chapter" },
 };
 
 const sectionIds = Object.keys(chapters);

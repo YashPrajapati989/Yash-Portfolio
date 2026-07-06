@@ -4,6 +4,7 @@ import { About } from "@/features/explorer/components/About";
 import { Toolbox } from "@/features/toolbox/components/Toolbox";
 import { Journey } from "@/features/journey/components/Journey";
 import { MissionArchive } from "@/features/mission-archive/components/MissionArchive";
+import { EngineeringProcess } from "@/features/engineering/components/EngineeringProcess";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Toolbox />
       <Journey />
       <MissionArchive />
+      <EngineeringProcess />
     </>
   );
 }
