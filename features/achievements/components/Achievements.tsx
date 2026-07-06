@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Award, BookOpen, ExternalLink, GitBranch, CheckCircle2, Clock, CircleDashed } from "lucide-react";
 import { Container, Section, Heading, Text, Card, Badge } from "@/components/ui";
 import { staggerContainerVariants, staggerItemVariants } from "@/lib/constants/animation";
@@ -59,17 +60,21 @@ export function Achievements() {
                 </div>
                 
                 <div className="w-full overflow-hidden rounded-lg border border-[var(--color-border)]/50 bg-[var(--color-bg-base)] p-4 flex flex-col items-center gap-4">
-                  <img 
-                    src={`https://github-readme-stats.vercel.app/api?username=${githubUsername}&show_icons=true&theme=radical&hide_border=true&bg_color=0b0f19&title_color=5eead4&text_color=94a3b8&icon_color=7c3aed`} 
+                  <Image
+                    src={`https://github-readme-stats.vercel.app/api?username=${githubUsername}&show_icons=true&theme=radical&hide_border=true&bg_color=0b0f19&title_color=5eead4&text_color=94a3b8&icon_color=7c3aed`}
                     alt={`${githubUsername}'s GitHub Stats`}
+                    width={450}
+                    height={180}
                     className="w-full max-w-md mx-auto object-contain"
-                    loading="lazy"
+                    unoptimized
                   />
-                  <img 
-                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${githubUsername}&theme=radical&hide_border=true&background=0b0f19&ring=5eead4&fire=7c3aed&currStreakNum=f8fafc&sideNums=94a3b8&currStreakLabel=94a3b8&sideLabels=94a3b8&dates=94a3b8`} 
+                  <Image
+                    src={`https://github-readme-streak-stats.herokuapp.com/?user=${githubUsername}&theme=radical&hide_border=true&background=0b0f19&ring=5eead4&fire=7c3aed&currStreakNum=f8fafc&sideNums=94a3b8&currStreakLabel=94a3b8&sideLabels=94a3b8&dates=94a3b8`}
                     alt={`${githubUsername}'s GitHub Streak`}
+                    width={450}
+                    height={150}
                     className="w-full max-w-md mx-auto object-contain"
-                    loading="lazy"
+                    unoptimized
                   />
                 </div>
               </Card>

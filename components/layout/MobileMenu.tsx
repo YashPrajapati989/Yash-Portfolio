@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { buttonVariants } from "@/components/ui/Button";
 import { Button } from "@/components/ui/Button";
 import { Navigation } from "./Navigation";
 import { slideInRightVariants, fadeVariants } from "@/lib/constants/animation";
@@ -70,10 +71,10 @@ export function MobileMenu({ isOpen, onClose, activeSection }: MobileMenuProps) 
             <div className="flex items-center justify-end mb-8">
               <Button
                 variant="ghost"
-                size="icon"
+                size="sm"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                className="h-9 w-9 p-0 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
               >
                 <X className="h-6 w-6" />
               </Button>
@@ -90,9 +91,14 @@ export function MobileMenu({ isOpen, onClose, activeSection }: MobileMenuProps) 
             </nav>
             
             <div className="mt-auto pt-8">
-              <Button as="a" href="/resume.pdf" target="_blank" rel="noopener noreferrer" variant="primary" className="w-full">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonVariants({ variant: "primary", className: "w-full" })}
+              >
                 Resume
-              </Button>
+              </a>
             </div>
           </motion.div>
         </>

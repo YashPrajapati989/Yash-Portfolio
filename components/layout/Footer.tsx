@@ -76,9 +76,9 @@ export function Footer() {
 
           {/* Social Links */}
           <div className="flex flex-col md:items-end">
-            <Text weight="semibold" color="primary" className="mb-4">
+            <p className="mb-4 font-semibold text-[var(--color-primary)]">
               Connect
-            </Text>
+            </p>
             <div className="flex items-center gap-4">
               {socialLinks.map((link) => (
                 <a
@@ -98,13 +98,13 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-[var(--color-border-muted)]">
-          <Text size="sm" color="muted">
+          <p className="text-sm text-[var(--color-text-muted)]">
             &copy; {currentYear} Yash. All rights reserved.
-          </Text>
+          </p>
           <div className="flex items-center gap-6 mt-4 md:mt-0">
-            <Text size="sm" color="muted" className="hover:text-[var(--color-text-secondary)] transition-colors">
-              Built with Next.js 16 & React 19
-            </Text>
+            <p className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors">
+              Built with Next.js 16 &amp; React 19
+            </p>
           </div>
         </div>
       </Container>

@@ -1,4 +1,4 @@
-import { Lightbulb, Code2, TestTube, Rocket, MonitorCheck, Server } from "lucide-react";
+import { Lightbulb, TestTube, Rocket, MonitorCheck, Server } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface ProcessStep {
