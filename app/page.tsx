@@ -8,9 +8,43 @@ import { EngineeringProcess } from "@/features/engineering/components/Engineerin
 import { Achievements } from "@/features/achievements/components/Achievements";
 import { Contact } from "@/features/contact/components/Contact";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yash Prajapati",
+  url: "https://yashprajapati.vercel.app",
+  email: "pyash9263@gmail.com",
+  telephone: "+917046970540",
+  jobTitle: "Data Analyst",
+  description:
+    "Results-driven Data Analyst (BSc Computer Science, CGPA 9.02) with expertise in Python, SQL, PostgreSQL, and Excel-based analytics.",
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Mumbai",
+  },
+  knowsAbout: [
+    "Data Analysis",
+    "SQL",
+    "Python",
+    "PostgreSQL",
+    "Pandas",
+    "Business Intelligence",
+    "KPI Dashboards",
+    "Machine Learning",
+  ],
+  sameAs: [
+    "https://github.com/YashPrajapati989",
+    "https://linkedin.com/in/yash-prajapati",
+  ],
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Hero />
       <Overview />
       <About />
