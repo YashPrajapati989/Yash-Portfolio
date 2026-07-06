@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { LenisProvider } from "@/providers/LenisProvider";
 import { PageWrapper } from "@/components/layout";
 import { ChapterIndicator } from "@/components/ui/ChapterIndicator";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,10 +36,13 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <PageWrapper>
-            {children}
-          </PageWrapper>
-          <ChapterIndicator />
+          <LenisProvider>
+            <CustomCursor />
+            <PageWrapper>
+              {children}
+            </PageWrapper>
+            <ChapterIndicator />
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>
