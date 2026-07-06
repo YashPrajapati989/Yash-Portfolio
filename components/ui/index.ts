@@ -6,4 +6,3 @@ export * from './Text';
 export * from './Card';
 export * from './Badge';
 export * from './ChapterIndicator';
-export * from './CustomCursor';
