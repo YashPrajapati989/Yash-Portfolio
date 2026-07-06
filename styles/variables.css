@@ -53,6 +53,9 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 24px rgba(94, 234, 212, 0.2);
+  --shadow-glow-strong: 0 0 40px rgba(94, 234, 212, 0.35);
+  --shadow-glow-secondary: 0 0 24px rgba(124, 58, 237, 0.25);
+  --border-glow: 1px solid rgba(94, 234, 212, 0.35);
 
   /* ── Navbar ── */
   --navbar-height: 80px;
