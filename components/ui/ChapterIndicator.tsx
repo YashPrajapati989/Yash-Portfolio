@@ -15,7 +15,8 @@ const chapters: Record<string, { number: string; label: string }> = {
   journey:     { number: "05", label: "The Journey" },
   projects:    { number: "06", label: "Mission Archive" },
   engineering: { number: "07", label: "Engineering" },
-  contact:     { number: "08", label: "Next Chapter" },
+  achievements:{ number: "08", label: "Achievements" },
+  contact:     { number: "09", label: "Next Chapter" },
 };
 
 const sectionIds = Object.keys(chapters);
