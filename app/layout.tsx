@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { LenisProvider } from "@/providers/LenisProvider";
 import { PageWrapper } from "@/components/layout";
 import { ChapterIndicator } from "@/components/ui/ChapterIndicator";
 
@@ -35,12 +34,10 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <LenisProvider>
-            <PageWrapper>
-              {children}
-            </PageWrapper>
-            <ChapterIndicator />
-          </LenisProvider>
+          <PageWrapper>
+            {children}
+          </PageWrapper>
+          <ChapterIndicator />
         </ThemeProvider>
       </body>
     </html>
