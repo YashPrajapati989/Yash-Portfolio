@@ -13,6 +13,7 @@ export function useScrolled(threshold = 20): boolean {
 
   useEffect(() => {
     // Initialise from current scroll position (avoids stale state on mount)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setScrolled(window.scrollY > threshold);
 
     const handleScroll = () => {

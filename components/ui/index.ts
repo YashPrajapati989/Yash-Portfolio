@@ -5,3 +5,4 @@ export * from './Heading';
 export * from './Text';
 export * from './Card';
 export * from './Badge';
+export * from './ChapterIndicator';
