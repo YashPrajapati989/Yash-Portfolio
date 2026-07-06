@@ -61,7 +61,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Yash Prajapati",
-  url: "https://yashprajapati.vercel.app",
+  url: "https://yashprajapati-portfolio.netlify.app",
   email: "pyash9263@gmail.com",
   telephone: "+917046970540",
   jobTitle: "Data Analyst",
