@@ -28,7 +28,7 @@ const previewCards = [
     description:
       "Internships, academic projects, and community involvement that shaped my engineering mindset and problem-solving skills.",
     badge: "3+ Roles",
-    badgeVariant: "warning" as const,
+    badgeVariant: "accent" as const,
     href: "#experience",
   },
 ];
