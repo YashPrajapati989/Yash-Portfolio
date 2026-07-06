@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { PageWrapper } from "@/components/layout";
+import { ChapterIndicator } from "@/components/ui/ChapterIndicator";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,6 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yash Portfolio",
-  description: "Senior Frontend Engineer Portfolio",
   title: "Yash Prajapati — Portfolio",
   description:
     "Computer Science student, aspiring data scientist, and full stack developer. Explore my projects, skills, and experience.",
@@ -38,6 +37,7 @@ export default function RootLayout({
           <PageWrapper>
             {children}
           </PageWrapper>
+          <ChapterIndicator />
         </ThemeProvider>
       </body>
     </html>

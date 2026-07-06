@@ -22,28 +22,28 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          'bg-violet-600 text-white shadow-md',
-          'hover:bg-violet-700 hover:shadow-violet-500/30 hover:shadow-lg',
-          'active:scale-[0.98]',
+          'bg-[var(--color-primary)] text-[var(--color-text-inverted)] font-semibold shadow-md',
+          'hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_20px_rgba(94,234,212,0.4)]',
+          'active:scale-[0.98] transition-all duration-200',
         ],
         secondary: [
-          'bg-slate-800 text-slate-100 shadow-md dark:bg-slate-700',
-          'hover:bg-slate-700 dark:hover:bg-slate-600',
+          'bg-[var(--color-bg-elevated)] text-[var(--color-text-primary)] border border-[var(--color-border)] shadow-md',
+          'hover:border-[var(--color-primary)]/40 hover:bg-[var(--color-bg-elevated)]',
           'active:scale-[0.98]',
         ],
         outline: [
-          'border border-violet-500 text-violet-500 bg-transparent',
-          'hover:bg-violet-500/10',
+          'border border-[var(--color-primary)]/60 text-[var(--color-primary)] bg-transparent',
+          'hover:bg-[var(--color-primary-muted)] hover:border-[var(--color-primary)] hover:shadow-[0_0_16px_rgba(94,234,212,0.2)]',
           'active:scale-[0.98]',
         ],
         ghost: [
-          'text-slate-700 dark:text-slate-300 bg-transparent',
-          'hover:bg-slate-100 dark:hover:bg-slate-800',
+          'text-[var(--color-text-secondary)] bg-transparent',
+          'hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]',
           'active:scale-[0.98]',
         ],
         link: [
-          'text-violet-500 underline-offset-4 bg-transparent p-0 h-auto',
-          'hover:underline hover:text-violet-400',
+          'text-[var(--color-primary)] underline-offset-4 bg-transparent p-0 h-auto',
+          'hover:underline hover:text-[var(--color-primary-hover)]',
         ],
       },
       size: {
