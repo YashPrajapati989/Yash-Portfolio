@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Theme — Dark / Light mode definitions
+   next-themes uses .dark class on <html> when attribute="class"
+   ========================================================================== */
+
+/* Dark theme (default for this portfolio) */
+html.dark,
+:root {
+  color-scheme: dark;
+  --background: var(--color-bg-base);
+  --foreground: var(--color-text-primary);
+  --surface: var(--color-bg-surface);
+  --border: var(--color-border);
+}
+
+/* Light theme override (Premium SaaS-style) */
+html.light {
+  color-scheme: light;
+  
+  /* ── Backgrounds ── */
+  --color-bg-base: #fafafa;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #f3f4f6;
+  --color-bg-overlay: rgba(250, 250, 250, 0.85);
+
+  /* ── Typography ── */
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #9ca3af;
+  --color-text-inverted: #ffffff;
+
+  /* ── Borders ── */
+  --color-border: #e5e7eb;
+  --color-border-muted: rgba(229, 231, 235, 0.6);
+
+  /* ── Gradients ── */
+  --gradient-hero: linear-gradient(180deg, #fafafa 0%, #f3f4f6 100%);
+  --gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(94, 234, 212, 0.12), transparent 70%);
+
+  /* ── Shadows (Subtle) ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(94, 234, 212, 0.15);
+
+  /* ── Base Mappings ── */
+  --background: var(--color-bg-base);
+  --foreground: var(--color-text-primary);
+  --surface: var(--color-bg-surface);
+  --border: var(--color-border);
+}
