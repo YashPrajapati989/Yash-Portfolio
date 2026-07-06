@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { PageWrapper } from "@/components/layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,6 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  title: "Yash Portfolio",
+  description: "Senior Frontend Engineer Portfolio",
   title: "Yash Prajapati — Portfolio",
   description:
     "Computer Science student, aspiring data scientist, and full stack developer. Explore my projects, skills, and experience.",
@@ -26,9 +30,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+        <ThemeProvider>
+          <PageWrapper>
+            {children}
+          </PageWrapper>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
