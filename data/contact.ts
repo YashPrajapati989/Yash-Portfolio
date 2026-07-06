@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin, Github, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export const contactInfo = {
   email: "pyash9263@gmail.com",
@@ -11,11 +11,9 @@ export const socialLinks = [
   {
     platform: "LinkedIn",
     url: "https://linkedin.com/in/yash-prajapati", // Update with actual URL
-    icon: Linkedin,
   },
   {
     platform: "GitHub",
     url: "https://github.com/YashPrajapati989", // Inferred from repo, verify
-    icon: Github,
   },
 ];
