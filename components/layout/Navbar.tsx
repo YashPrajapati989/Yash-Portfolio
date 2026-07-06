@@ -10,7 +10,7 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 import { containerClass, navbarHeight } from "@/lib/constants/spacing";
 import { navbarVariants } from "@/lib/constants/animation";
 
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { Navigation, navigationItems } from "./Navigation";
@@ -50,9 +50,9 @@ export function Navbar() {
             
             <div className="flex items-center gap-4 border-l border-[var(--color-border-muted)] pl-6 ml-2">
               <ThemeToggle />
-              <Button as="a" href="/resume.pdf" target="_blank" rel="noopener noreferrer" variant="primary" size="sm">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "primary", size: "sm" })}>
                 Resume
-              </Button>
+              </a>
             </div>
           </nav>
 
@@ -61,11 +61,11 @@ export function Navbar() {
             <ThemeToggle />
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-expanded={isMobileMenuOpen}
               aria-label="Open main menu"
-              className="text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]"
+              className="w-10 h-10 p-0 text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-elevated)]"
             >
               <Menu className="h-6 w-6" />
             </Button>
