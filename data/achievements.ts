@@ -16,47 +16,62 @@ export const githubUsername = "YashPrajapati989";
 
 export const certifications: Certification[] = [
   {
-    id: "cert-1",
-    title: "Data Analytics Virtual Experience",
-    issuer: "KPMG",
-    date: "2024",
-    url: "#",
+    id: "cert-deloitte",
+    title: "Data Analytics Job Simulation",
+    issuer: "Deloitte via Forage",
+    date: "Jun 2026",
   },
   {
-    id: "cert-2",
-    title: "Python for Data Science",
-    issuer: "Coursera",
-    date: "2023",
-    url: "#",
+    id: "cert-tata-viz",
+    title: "Data Visualisation: Empowering Business",
+    issuer: "Tata Group via Forage",
+    date: "Jun 2026",
   },
   {
-    id: "cert-3",
-    title: "React Native Developer Specialization",
-    issuer: "Meta",
-    date: "2023",
-    url: "#",
+    id: "cert-tata-ai",
+    title: "GenAI Powered Data Analytics",
+    issuer: "Tata Group via Forage",
+    date: "Sep 2025",
+  },
+  {
+    id: "cert-udemy",
+    title: "SQL and PostgreSQL for Beginners",
+    issuer: "Udemy",
+    date: "Jun 2026",
+  },
+  {
+    id: "cert-infosys",
+    title: "Prompt Engineering",
+    issuer: "Infosys Springboard",
+    date: "Jun 2026",
+  },
+  {
+    id: "cert-microsoft",
+    title: "Skill Competency — SOAR: AI to Aspire",
+    issuer: "Microsoft / Skill India",
+    date: "Nov 2025",
   },
 ];
 
 export const learningJourney: LearningItem[] = [
   {
-    id: "learn-1",
-    topic: "Advanced Machine Learning Algorithms",
+    id: "learn-data",
+    topic: "Advanced Data Analytics & KPI Reporting",
     status: "in-progress",
   },
   {
-    id: "learn-2",
-    topic: "Cloud Architecture (AWS)",
+    id: "learn-sql",
+    topic: "PostgreSQL Stored Procedures & Optimization",
     status: "in-progress",
   },
   {
-    id: "learn-3",
-    topic: "Data Visualization with D3.js",
+    id: "learn-ai",
+    topic: "Prompt Engineering & GenAI Integrations",
     status: "planned",
   },
   {
-    id: "learn-4",
-    topic: "Full Stack Next.js Ecosystem",
+    id: "learn-python",
+    topic: "Python Pandas & Matplotlib Dashboards",
     status: "completed",
   },
 ];

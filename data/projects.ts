@@ -21,41 +21,63 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "smart-attendx",
-    title: "Smart AttendX",
-    subtitle: "AI-Powered Attendance System",
-    description:
-      "A full-stack attendance management system that eliminates manual roll calls by using face recognition to automate the entire process — from detection and verification to logging and reporting.",
-    problem:
-      "Traditional attendance systems are slow, error-prone, and easy to manipulate. Educational institutions and organizations needed a reliable, automated solution that works in real-time.",
-    outcome:
-      "Delivered a production-ready system with secure login, real-time face detection, attendance logs, and exportable reports — significantly reducing administrative overhead.",
-    tags: ["AI", "Face Recognition", "Full Stack", "Mobile"],
-    stack: ["React Native", "Python", "Flask", "REST APIs", "Face Recognition"],
+    id: "retail-sales-analysis",
+    title: "Retail Sales Analysis",
+    subtitle: "Advanced SQL & Python Data Analytics",
+    description: "Designed a retail_sales database with 1,000+ transactions to identify top-spending customers, best-selling months, and peak shopping shifts to guide inventory decisions.",
+    problem: "Needed a way to extract actionable business insights from raw transaction logs, which contained NULLs and schema inconsistencies.",
+    outcome: "Resolved all inconsistencies through systematic data cleaning and answered 15+ business questions using advanced SQL window functions and CTEs.",
+    tags: ["Data Analysis", "SQL", "Python"],
+    stack: ["PostgreSQL", "Pandas", "Excel"],
     status: "completed",
     featured: true,
     links: {
-      github: "",
-      live: "",
+      github: "https://github.com/YashPrajapati989",
     },
   },
   {
-    id: "ai-video-player",
-    title: "AI Video Player",
-    subtitle: "Feature-Rich Mobile Video Player",
-    description:
-      "A polished mobile video player application built from scratch with a focus on smooth playback controls, intuitive navigation, and an exceptional user experience across different devices and screen orientations.",
-    problem:
-      "Most mobile video players lack fine-grained controls or have cluttered UIs. The goal was to build a minimal, powerful player with all essential controls elegantly designed.",
-    outcome:
-      "Shipped a fully functional mobile video player with seek bar navigation, play/pause controls, 10-second forward/rewind, screen rotation, lock mode, and optimized playback performance.",
-    tags: ["Mobile", "React Native", "UI/UX"],
-    stack: ["React Native", "JavaScript", "Mobile APIs"],
+    id: "smart-attendx",
+    title: "Smart AttendX",
+    subtitle: "AI-Powered Attendance System",
+    description: "Engineered a full-stack AI attendance platform using face recognition for automated real-time tracking, eliminating ~80% of manual attendance effort.",
+    problem: "Traditional attendance systems are slow, error-prone, and easy to manipulate. Organizations needed a reliable, automated solution that works in real-time.",
+    outcome: "Designed a normalized PostgreSQL schema with JWT-based authentication. Presented at the 20th Aavishkar Inter-Collegiate Research Convention.",
+    tags: ["AI", "Face Recognition", "Full Stack"],
+    stack: ["React Native", "Python", "Flask", "PostgreSQL"],
+    status: "completed",
+    featured: true,
+    links: {
+      github: "https://github.com/YashPrajapati989",
+    },
+  },
+  {
+    id: "online-food-delivery",
+    title: "Online Food Delivery Analysis",
+    subtitle: "Interactive Pivot Table Dashboard",
+    description: "Analyzed a 5,000-row, 5-table dataset to surface customer behavior and restaurant performance metrics across major cities.",
+    problem: "Underperforming restaurant segments needed targeted promotional recommendations based on actual revenue data.",
+    outcome: "Pinpointed top revenue-generating items and seasonal trends. Delivered an interactive Excel Pivot Table dashboard with actionable recommendations.",
+    tags: ["Data Visualization", "Dashboards"],
+    stack: ["SQL", "PostgreSQL", "Excel Pivot Tables"],
     status: "completed",
     featured: false,
     links: {
-      github: "",
-      live: "",
+      github: "https://github.com/YashPrajapati989",
+    },
+  },
+  {
+    id: "library-management",
+    title: "Library Management System",
+    subtitle: "Relational Database Engineering",
+    description: "Engineered a fully normalized 6-table relational schema with complete referential integrity for a library system.",
+    problem: "Needed an automated backend to handle book issuance, returns, inventory updates, and productivity tracking.",
+    outcome: "Built PL/pgSQL stored procedures for transactions. Generated KPI reports for borrowed books, revenue, and branchwise return rates using CTEs and window functions.",
+    tags: ["Backend", "Database Design"],
+    stack: ["PostgreSQL", "PL/pgSQL", "SQL"],
+    status: "completed",
+    featured: false,
+    links: {
+      github: "https://github.com/YashPrajapati989",
     },
   },
 ];

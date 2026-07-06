@@ -1,28 +1,58 @@
 export interface SkillCategory {
-  title: string;
+  category: string;
   description: string;
-  skills: string[];
+  items: { name: string }[];
 }
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Data & Analytics",
-    description: "Extracting insights from data through cleaning, analysis, and visual storytelling.",
-    skills: ["Python", "SQL", "Excel", "Pandas", "NumPy", "EDA", "Statistics", "Data Cleaning", "Dashboards"],
+    category: "Analytics & Python",
+    description: "Core data analysis, manipulation, and statistical reporting.",
+    items: [
+      { name: "Pandas" },
+      { name: "NumPy" },
+      { name: "EDA" },
+      { name: "Data Wrangling" },
+      { name: "Statistical Analysis" },
+      { name: "KPI Analysis" },
+      { name: "Business Reporting" },
+    ],
   },
   {
-    title: "Mobile & Web Development",
-    description: "Building performant, user-focused applications across mobile and web platforms.",
-    skills: ["React Native", "Flask", "REST APIs", "JavaScript", "HTML/CSS", "Mobile App Development"],
+    category: "SQL & Databases",
+    description: "Relational database management and complex querying.",
+    items: [
+      { name: "PostgreSQL" },
+      { name: "MySQL" },
+      { name: "SQLite" },
+      { name: "Window Functions" },
+      { name: "CTEs" },
+      { name: "PL/pgSQL" },
+      { name: "Joins & Indexing" },
+    ],
   },
   {
-    title: "AI & Machine Learning",
-    description: "Applying intelligent systems and pattern recognition to solve real-world problems.",
-    skills: ["Face Recognition", "Machine Learning", "AI Integration", "Python (ML)", "Scikit-Learn"],
+    category: "Visualization & BI",
+    description: "Turning raw data into actionable dashboards.",
+    items: [
+      { name: "Matplotlib" },
+      { name: "Seaborn" },
+      { name: "Excel Dashboards" },
+      { name: "Pivot Tables" },
+      { name: "Power BI (basic)" },
+      { name: "Tableau (basic)" },
+    ],
   },
   {
-    title: "Tools & Productivity",
-    description: "Leveraging modern tools and workflows to deliver consistent, high-quality work.",
-    skills: ["Git", "GitHub", "VS Code", "Data Visualization", "Problem Solving", "Excel (Advanced)"],
+    category: "AI / ML & Development",
+    description: "Machine learning, AI concepts, and full-stack development.",
+    items: [
+      { name: "Face Recognition" },
+      { name: "Predictive Modelling" },
+      { name: "Prompt Engineering" },
+      { name: "React Native" },
+      { name: "Flask & REST APIs" },
+      { name: "Git/GitHub" },
+    ],
   },
 ];

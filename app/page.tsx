@@ -6,6 +6,7 @@ import { Journey } from "@/features/journey/components/Journey";
 import { MissionArchive } from "@/features/mission-archive/components/MissionArchive";
 import { EngineeringProcess } from "@/features/engineering/components/EngineeringProcess";
 import { Achievements } from "@/features/achievements/components/Achievements";
+import { Contact } from "@/features/contact/components/Contact";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <MissionArchive />
       <EngineeringProcess />
       <Achievements />
+      <Contact />
     </>
   );
 }

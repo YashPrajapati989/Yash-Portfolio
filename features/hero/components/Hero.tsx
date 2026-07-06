@@ -58,8 +58,7 @@ export function Hero() {
           <div className="overflow-hidden p-2 -m-2">
             <motion.div variants={maskRevealVariants}>
               <Text variant="lead" className="max-w-xl mx-auto leading-relaxed text-[var(--color-text-secondary)]">
-                Computer Science Student&nbsp;&middot;&nbsp;Aspiring Data
-                Scientist&nbsp;&middot;&nbsp;Full Stack Developer
+                Data Analyst&nbsp;&middot;&nbsp;Business Analyst&nbsp;&middot;&nbsp;AI Enthusiast
               </Text>
             </motion.div>
           </div>
