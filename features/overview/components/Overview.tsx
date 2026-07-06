@@ -8,8 +8,8 @@ const previewCards = [
     icon: <FolderKanban className="h-7 w-7 text-[var(--color-secondary)]" aria-hidden />,
     title: "Projects",
     description:
-      "Full-stack apps, data science notebooks, and open-source contributions — built with React, Next.js, Python, and more.",
-    badge: "6+ Projects",
+      "Analytics dashboards, AI-powered platforms, and database engineering solutions — built with Python, SQL, React Native, and Flask.",
+    badge: "4+ Projects",
     badgeVariant: "default" as const,
     href: "#projects",
   },
@@ -17,7 +17,7 @@ const previewCards = [
     icon: <Code2 className="h-7 w-7 text-[var(--color-primary)]" aria-hidden />,
     title: "Skills",
     description:
-      "Proficient in Python, TypeScript, SQL, and machine learning frameworks. Comfortable across the full web development stack.",
+      "Proficient in Python, SQL, PostgreSQL, Pandas, Excel, and data visualization. Building intelligent data-driven solutions.",
     badge: "20+ Technologies",
     badgeVariant: "success" as const,
     href: "#skills",
@@ -26,10 +26,10 @@ const previewCards = [
     icon: <Briefcase className="h-7 w-7 text-[var(--color-accent)]" aria-hidden />,
     title: "Experience",
     description:
-      "Internships, academic projects, and community involvement that shaped my engineering mindset and problem-solving skills.",
-    badge: "3+ Roles",
+      "Data Analyst Intern at Unified Mentor — analyzed 10,000+ row datasets to deliver KPI insights and automate reporting workflows.",
+    badge: "1+ Year",
     badgeVariant: "accent" as const,
-    href: "#experience",
+    href: "#journey",
   },
 ];
 

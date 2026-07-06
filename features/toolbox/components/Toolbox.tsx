@@ -44,19 +44,19 @@ export function Toolbox() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {skillCategories.map((category) => (
-            <motion.div key={category.title} variants={staggerItemVariants}>
+            <motion.div key={category.category} variants={staggerItemVariants}>
               <Card glass className="h-full border-[var(--color-border)] bg-[var(--color-bg-surface)]/40 hover:border-[var(--color-primary)]/40 transition-colors">
                 <div className="flex flex-col h-full gap-6">
                   <div className="flex flex-col gap-2">
-                    <Heading as="h4">{category.title}</Heading>
+                    <Heading as="h4">{category.category}</Heading>
                     <Text variant="small" className="text-[var(--color-text-secondary)]">
                       {category.description}
                     </Text>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-auto">
-                    {category.skills.map((skill) => (
-                      <Badge key={skill} variant="outline" className="bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)]">
-                        {skill}
+                    {category.items.map((skill) => (
+                      <Badge key={skill.name} variant="outline" className="bg-[var(--color-bg-elevated)] border-[var(--color-border)] text-[var(--color-text-primary)]">
+                        {skill.name}
                       </Badge>
                     ))}
                   </div>
