@@ -13,6 +13,7 @@ export function ThemeToggle() {
 
   // Prevent hydration mismatch
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -26,10 +27,10 @@ export function ThemeToggle() {
   return (
     <Button
       variant="ghost"
-      size="icon"
+      size="sm"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label="Toggle theme"
-      className="relative overflow-hidden rounded-full hover:bg-[var(--color-bg-elevated)]"
+      className="relative w-10 h-10 p-0 overflow-hidden rounded-full hover:bg-[var(--color-bg-elevated)]"
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
