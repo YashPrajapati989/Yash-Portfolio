@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://yashprajapati.vercel.app"; // Update with your real domain
+const BASE_URL = "https://yashprajapati-portfolio.netlify.app"; // Update with your real domain
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

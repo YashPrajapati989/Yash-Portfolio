@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = "https://yashprajapati.vercel.app"; // Update with your real domain
+const BASE_URL = "https://yashprajapati-portfolio.netlify.app"; // Update with your real domain
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
