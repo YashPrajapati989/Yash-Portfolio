@@ -1,93 +1,81 @@
-import { forwardRef } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+'use client';
 
-const cardVariants = cva(
-  [
-    "rounded-xl border transition-all duration-300",
-    "border-[var(--color-border)]",
-  ],
-  {
-    variants: {
-      variant: {
-        default: [
-          "bg-[var(--color-bg-surface)]",
-          "shadow-[var(--shadow-md)]",
-        ],
-        elevated: [
-          "bg-[var(--color-bg-elevated)]",
-          "shadow-[var(--shadow-lg)]",
-        ],
-        glass: [
-          "glass",
-          "shadow-[var(--shadow-md)]",
-        ],
-        outline: [
-          "bg-transparent",
-          "border-[var(--color-border)]",
-        ],
-      },
-      interactive: {
-        true: [
-          "cursor-pointer",
-          "hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]",
-          "hover:border-[var(--color-primary)]",
-        ],
-        false: "",
-      },
+import { forwardRef } from 'react';
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import { cn } from '@/lib/utils';
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+export interface CardProps extends HTMLMotionProps<'div'> {
+  children: React.ReactNode;
+  className?: string;
+  /** Enable subtle lift + shadow animation on hover */
+  hover?: boolean;
+  /** Apply glassmorphism backdrop effect */
+  glass?: boolean;
+  /** Override the default padding */
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+}
+
+// ---------------------------------------------------------------------------
+// Padding map
+// ---------------------------------------------------------------------------
+const paddingMap = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+} as const;
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  (
+    {
+      children,
+      className,
+      hover = false,
+      glass = false,
+      padding = 'md',
+      ...props
     },
-    defaultVariants: {
-      variant: "default",
-      interactive: false,
-    },
+    ref
+  ) => {
+    return (
+      <motion.div
+        ref={ref}
+        whileHover={
+          hover
+            ? { y: -4, boxShadow: '0 20px 40px rgba(139, 92, 246, 0.15)' }
+            : undefined
+        }
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        className={cn(
+          // Base
+          'rounded-2xl border',
+          // Default look
+          !glass && 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm',
+          // Glassmorphism
+          glass && [
+            'bg-white/10 dark:bg-white/5',
+            'border-white/20 dark:border-white/10',
+            'backdrop-blur-md',
+            'shadow-xl shadow-black/10',
+          ],
+          // Hover cursor
+          hover && 'cursor-pointer',
+          // Padding
+          paddingMap[padding],
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
   }
 );
 
-export interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardVariants> {}
-
-/**
- * Surface card component with optional glass morphism and hover interactivity.
- */
-const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, interactive, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(cardVariants({ variant, interactive }), className)}
-      {...props}
-    />
-  )
-);
-
-Card.displayName = "Card";
-
-const CardHeader = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("p-6 pb-0", className)} {...props} />
-  )
-);
-CardHeader.displayName = "CardHeader";
-
-const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("p-6", className)} {...props} />
-  )
-);
-CardContent.displayName = "CardContent";
-
-const CardFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "p-6 pt-0 flex items-center gap-2",
-        className
-      )}
-      {...props}
-    />
-  )
-);
-CardFooter.displayName = "CardFooter";
-
-export { Card, CardHeader, CardContent, CardFooter, cardVariants };
+Card.displayName = 'Card';

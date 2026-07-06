@@ -1,68 +1,43 @@
-import { forwardRef } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-const textVariants = cva("", {
+// ---------------------------------------------------------------------------
+// Variant definitions
+// ---------------------------------------------------------------------------
+const textVariants = cva('', {
   variants: {
-    size: {
-      xs: "text-xs",
-      sm: "text-sm",
-      base: "text-base",
-      lg: "text-lg",
-      xl: "text-xl",
-    },
-    color: {
-      primary: "text-[var(--color-text-primary)]",
-      secondary: "text-[var(--color-text-secondary)]",
-      muted: "text-[var(--color-text-muted)]",
-      accent: "text-[var(--color-primary)]",
-      inherit: "",
-    },
-    weight: {
-      normal: "font-normal",
-      medium: "font-medium",
-      semibold: "font-semibold",
-      bold: "font-bold",
-    },
-    leading: {
-      tight: "leading-tight",
-      snug: "leading-snug",
-      normal: "leading-normal",
-      relaxed: "leading-relaxed",
+    variant: {
+      body: 'text-base leading-7 text-slate-700 dark:text-slate-300',
+      lead: 'text-lg sm:text-xl leading-8 text-slate-600 dark:text-slate-400 font-medium',
+      small: 'text-sm leading-6 text-slate-600 dark:text-slate-400',
+      muted: 'text-sm leading-6 text-slate-400 dark:text-slate-500',
     },
   },
   defaultVariants: {
-    size: "base",
-    color: "secondary",
-    weight: "normal",
-    leading: "relaxed",
+    variant: 'body',
   },
 });
 
-type TextElement = "p" | "span" | "div" | "label" | "small" | "strong" | "em";
-
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 export interface TextProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends React.HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof textVariants> {
-  /** HTML element to render */
-  as?: TextElement;
+  children: React.ReactNode;
+  className?: string;
 }
 
-/**
- * Flexible text component for paragraphs and inline text.
- * Supports full color, size, weight, and leading variants.
- */
-const Text = forwardRef<HTMLElement, TextProps>(
-  ({ className, as: Tag = "p", size, color, weight, leading, ...props }, ref) => (
-    // @ts-expect-error — polymorphic ref typing
-    <Tag
-      ref={ref}
-      className={cn(textVariants({ size, color, weight, leading }), className)}
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+export function Text({ children, className, variant, ...props }: TextProps) {
+  return (
+    <p
+      className={cn(textVariants({ variant }), className)}
       {...props}
-    />
-  )
-);
-
-Text.displayName = "Text";
-
-export { Text, textVariants };
+    >
+      {children}
+    </p>
+  );
+}

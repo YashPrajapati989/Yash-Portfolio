@@ -1,26 +1,32 @@
-import { forwardRef } from "react";
-import { cn } from "@/lib/utils";
-import { containerClass } from "@/lib/constants/spacing";
+import { cn } from '@/lib/utils';
 
-export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Remove max-width constraint */
-  fluid?: boolean;
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+export interface ContainerProps {
+  children: React.ReactNode;
+  className?: string;
+  /** Tailwind max-width class. Defaults to max-w-6xl */
+  maxWidth?: 'max-w-sm' | 'max-w-md' | 'max-w-lg' | 'max-w-xl' | 'max-w-2xl' | 'max-w-4xl' | 'max-w-5xl' | 'max-w-6xl' | 'max-w-7xl' | 'max-w-full';
 }
 
-/**
- * Responsive max-width container with consistent horizontal padding.
- * Wraps content to keep it centered and readable on all screen sizes.
- */
-const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ className, fluid = false, ...props }, ref) => (
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+export function Container({
+  children,
+  className,
+  maxWidth = 'max-w-6xl',
+}: ContainerProps) {
+  return (
     <div
-      ref={ref}
-      className={cn(fluid ? "w-full px-4 sm:px-6 lg:px-8" : containerClass, className)}
-      {...props}
-    />
-  )
-);
-
-Container.displayName = "Container";
-
-export { Container };
+      className={cn(
+        'mx-auto w-full px-4 sm:px-6 lg:px-8',
+        maxWidth,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
