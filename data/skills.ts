@@ -6,23 +6,23 @@ export interface SkillCategory {
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Frontend Engineering",
-    description: "Building responsive, accessible, and highly interactive user interfaces.",
-    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML/CSS"],
+    title: "Data & Analytics",
+    description: "Extracting insights from data through cleaning, analysis, and visual storytelling.",
+    skills: ["Python", "SQL", "Excel", "Pandas", "NumPy", "EDA", "Statistics", "Data Cleaning", "Dashboards"],
   },
   {
-    title: "Backend & Databases",
-    description: "Designing scalable server-side architecture and managing relational/NoSQL data.",
-    skills: ["Python", "Node.js", "SQL", "PostgreSQL", "MongoDB", "Express"],
+    title: "Mobile & Web Development",
+    description: "Building performant, user-focused applications across mobile and web platforms.",
+    skills: ["React Native", "Flask", "REST APIs", "JavaScript", "HTML/CSS", "Mobile App Development"],
   },
   {
-    title: "Data Science & Machine Learning",
-    description: "Extracting insights from data and training predictive models.",
-    skills: ["Pandas", "NumPy", "Scikit-Learn", "TensorFlow", "PyTorch", "Jupyter"],
+    title: "AI & Machine Learning",
+    description: "Applying intelligent systems and pattern recognition to solve real-world problems.",
+    skills: ["Face Recognition", "Machine Learning", "AI Integration", "Python (ML)", "Scikit-Learn"],
   },
   {
-    title: "Tools & Architecture",
-    description: "Utilizing modern development workflows, deployment strategies, and version control.",
-    skills: ["Git", "GitHub", "Vercel", "Docker", "REST APIs", "VS Code"],
+    title: "Tools & Productivity",
+    description: "Leveraging modern tools and workflows to deliver consistent, high-quality work.",
+    skills: ["Git", "GitHub", "VS Code", "Data Visualization", "Problem Solving", "Excel (Advanced)"],
   },
 ];
