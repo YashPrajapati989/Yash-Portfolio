@@ -44,7 +44,7 @@ export function Navbar() {
           <Logo />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex md:items-center md:gap-8">
+          <nav className="hidden lg:flex lg:items-center lg:gap-8">
             <Navigation activeSection={activeSection} />
             
             <div className="flex items-center gap-4 border-l border-[var(--color-border-muted)] pl-6 ml-2">
@@ -56,7 +56,7 @@ export function Navbar() {
           </nav>
 
           {/* Mobile Actions */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <Button
               variant="ghost"

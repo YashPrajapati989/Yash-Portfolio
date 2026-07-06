@@ -52,7 +52,7 @@ export function MobileMenu({ isOpen, onClose, activeSection }: MobileMenuProps) 
             animate="visible"
             exit="exit"
             onClick={onClose}
-            className="fixed inset-0 z-[var(--z-mobile-menu)] bg-[var(--color-bg-overlay)] backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-[var(--z-mobile-menu)] bg-[var(--color-bg-overlay)] backdrop-blur-sm lg:hidden"
             aria-hidden="true"
           />
 
@@ -66,7 +66,7 @@ export function MobileMenu({ isOpen, onClose, activeSection }: MobileMenuProps) 
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation Menu"
-            className="fixed right-0 top-0 bottom-0 z-[calc(var(--z-mobile-menu)+1)] flex w-[300px] max-w-[80vw] flex-col bg-[var(--color-bg-surface)] p-6 shadow-2xl md:hidden border-l border-[var(--color-border)]"
+            className="fixed right-0 top-0 bottom-0 z-[calc(var(--z-mobile-menu)+1)] flex w-[300px] max-w-[80vw] flex-col bg-[var(--color-bg-surface)] p-6 shadow-2xl lg:hidden border-l border-[var(--color-border)]"
           >
             <div className="flex items-center justify-end mb-8">
               <Button
