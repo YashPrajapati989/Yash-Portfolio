@@ -9,12 +9,10 @@ import { Overview } from "@/features/overview/components/Overview";
 const About = dynamic(() =>
   import("@/features/explorer/components/About").then((m) => m.About)
 );
-const Toolbox = dynamic(() =>
-  import("@/features/toolbox/components/Toolbox").then((m) => m.Toolbox)
-);
 const Journey = dynamic(() =>
   import("@/features/journey/components/Journey").then((m) => m.Journey)
 );
+
 const MissionArchive = dynamic(() =>
   import("@/features/mission-archive/components/MissionArchive").then(
     (m) => m.MissionArchive
@@ -92,7 +90,10 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
+        // Keep as client-safe: Next will render this into the document head/body
+        // via a script tag; using a string avoids React script-block warnings.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        suppressHydrationWarning
       />
 
       {/* Above the fold — loaded immediately */}
@@ -103,9 +104,7 @@ export default function Home() {
       <Suspense fallback={<SectionSkeleton />}>
         <About />
       </Suspense>
-      <Suspense fallback={<SectionSkeleton />}>
-        <Toolbox />
-      </Suspense>
+
       <Suspense fallback={<SectionSkeleton />}>
         <Journey />
       </Suspense>
