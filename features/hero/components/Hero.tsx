@@ -33,28 +33,29 @@ const techCards = [
   "GitHub",
 ];
 
-function useCursorParallax(maxShift = 10) {
+function useCursorParallax(maxShift = 12) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
-  const [enabled, setEnabled] = useState(false);
 
-  useEffect(() => {
-    setEnabled(!reducedMotion);
-  }, [reducedMotion]);
-
-  const rawX = useSpring(0, { stiffness: 200, damping: 28, mass: 0.7 });
-  const rawY = useSpring(0, { stiffness: 200, damping: 28, mass: 0.7 });
+  const rawX = useSpring(0, { stiffness: 220, damping: 26, mass: 0.7 });
+  const rawY = useSpring(0, { stiffness: 220, damping: 26, mass: 0.7 });
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || !enabled) return;
+    if (!el) return;
+    if (reducedMotion) {
+      rawX.set(0);
+      rawY.set(0);
+      return;
+    }
 
     const onMove = (e: PointerEvent) => {
       const rect = el.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / rect.width;
-      const dy = (e.clientY - cy) / rect.height;
+      const dx = (e.clientX - cx) / Math.max(1, rect.width);
+      const dy = (e.clientY - cy) / Math.max(1, rect.height);
+
       rawX.set(Math.max(-1, Math.min(1, dx)) * maxShift);
       rawY.set(Math.max(-1, Math.min(1, dy)) * maxShift);
     };
@@ -70,13 +71,14 @@ function useCursorParallax(maxShift = 10) {
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
     };
-  }, [enabled, maxShift, rawX, rawY]);
+  }, [reducedMotion, maxShift, rawX, rawY]);
 
-  const tiltX = useTransform(rawY, (v) => v * -0.9);
-  const tiltY = useTransform(rawX, (v) => v * 0.9);
+  const tiltX = useTransform(rawY, (v) => v * -0.85);
+  const tiltY = useTransform(rawX, (v) => v * 0.85);
 
   return { ref, tiltX, tiltY, rawX, rawY };
 }
+
 
 function ScrollIndicator() {
   const reducedMotion = useReducedMotion();
