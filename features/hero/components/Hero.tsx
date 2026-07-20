@@ -1,62 +1,61 @@
 "use client";
 
-import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
   motion,
   useReducedMotion,
   useSpring,
   useTransform,
+  AnimatePresence,
   type MotionValue,
 } from "framer-motion";
-import { Badge, Container, Heading, Section, Text } from "@/components/ui";
+import { Container, Section, Text } from "@/components/ui";
 import { buttonVariants } from "@/components/ui/Button";
-import { staggerContainerVariants } from "@/lib/constants/animation";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Download, MoveDown } from "lucide-react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
-type Designation = {
-  title: string;
-};
+// ==========================================
+// 1. DATA & CONSTANTS
+// ==========================================
 
-type CursorParallax = {
-  ref: React.RefObject<HTMLDivElement>;
-  tiltX: MotionValue<number>;
-  tiltY: MotionValue<number>;
-  rawX: MotionValue<number>;
-  rawY: MotionValue<number>;
-};
-
-const designations: Designation[] = [
-  { title: "Data Scientist" },
-  { title: "Data Analyst" },
-  { title: "Machine Learning Engineer" },
-  { title: "AI Developer" },
+const ROLES = [
+  "Data Scientist",
+  "Machine Learning Engineer",
+  "Data Analyst",
+  "AI Developer",
 ];
 
-function useCursorParallax(maxShift = 10): CursorParallax {
+const SKILLS = [
+  "Python", "SQL", "Power BI", "Excel",
+  "Machine Learning", "Data Analytics",
+  "Java", "JavaScript", "React", "Next.js",
+  "Git", "GitHub"
+];
+
+// ==========================================
+// 2. CUSTOM HOOKS
+// ==========================================
+
+function useCursorParallax(maxShift = 15) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reducedMotion = useReducedMotion();
 
-  const rawX = useSpring(0, { stiffness: 260, damping: 26, mass: 0.65 });
-  const rawY = useSpring(0, { stiffness: 260, damping: 26, mass: 0.65 });
+  const rawX = useSpring(0, { stiffness: 150, damping: 20, mass: 0.5 });
+  const rawY = useSpring(0, { stiffness: 150, damping: 20, mass: 0.5 });
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-
-    if (reducedMotion) {
-      rawX.set(0);
-      rawY.set(0);
-      return;
-    }
+    if (!el || reducedMotion) return;
 
     const onMove = (e: PointerEvent) => {
       const rect = el.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / Math.max(1, rect.width);
-      const dy = (e.clientY - cy) / Math.max(1, rect.height);
+      // Normalized coordinates between -1 and 1
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
       rawX.set(Math.max(-1, Math.min(1, dx)) * maxShift);
       rawY.set(Math.max(-1, Math.min(1, dy)) * maxShift);
     };
@@ -74,730 +73,421 @@ function useCursorParallax(maxShift = 10): CursorParallax {
     };
   }, [maxShift, reducedMotion, rawX, rawY]);
 
-  const tiltX = useTransform(rawY, (v) => v * -0.75);
-  const tiltY = useTransform(rawX, (v) => v * 0.75);
+  // Inverse tilt based on mouse position
+  const tiltX = useTransform(rawY, (v) => v * -1.2);
+  const tiltY = useTransform(rawX, (v) => v * 1.2);
 
   return { ref, tiltX, tiltY, rawX, rawY };
 }
 
-function ScrollIndicator() {
+// ==========================================
+// 3. BACKGROUND COMPONENTS
+// ==========================================
+
+function BackgroundMesh() {
   const reducedMotion = useReducedMotion();
   return (
-    <motion.div
-      className="mt-8 flex flex-col items-center gap-3 select-none"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <div
-        className="text-[var(--color-text-secondary)] text-xs tracking-[0.18em] uppercase"
-        aria-hidden="true"
-      >
-        Scroll
-      </div>
-      <div
-        className="relative h-10 w-6 rounded-full border border-[var(--color-border-muted)] bg-[rgba(255,255,255,0.02)]"
-        aria-hidden="true"
-      >
-        <motion.span
-          className="absolute left-1/2 top-2 h-2 w-2 -translate-x-1/2 rounded-full bg-[var(--color-primary)] shadow-[0_0_18px_rgba(94,234,212,0.35)]"
-          animate={reducedMotion ? undefined : { y: [0, 14, 0] }}
-          transition={
-            reducedMotion ? undefined : { duration: 1.55, repeat: Infinity, ease: "easeInOut" }
-          }
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {/* Base Dark Layer */}
+      <div className="absolute inset-0 bg-[#07090E]" />
+
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,1)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
+      
+      {/* Noise Texture */}
+      <div className="absolute inset-0 opacity-[0.025] mix-blend-screen pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDIiIGhlaWdodD0iNDAyIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI24pIiBvcGFjaXR5PSIwLjI1Ii8+PC9zdmc+')]"/>
+
+      {/* Animated Glowing Aurora Blobs */}
+      <div className="absolute inset-0 opacity-40">
+        <motion.div
+          className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[var(--color-primary)] blur-[140px] mix-blend-screen"
+          animate={reducedMotion ? {} : {
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-[10%] -right-[10%] w-[45%] h-[60%] rounded-full bg-[var(--color-secondary)] blur-[140px] mix-blend-screen opacity-70"
+          animate={reducedMotion ? {} : {
+            x: [0, -80, 0],
+            y: [0, -60, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full bg-[#1F4B8B] blur-[160px] mix-blend-screen opacity-50"
+          animate={reducedMotion ? {} : {
+            x: [0, 50, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
+
+      {/* Glass Panels */}
+      <div className="absolute bottom-[-10%] -left-[10%] w-[40%] h-[50%] bg-white/[0.01] border border-white/[0.05] rounded-[40px] backdrop-blur-[2px] transform -rotate-12 pointer-events-none" />
+      <div className="absolute -top-[10%] right-[5%] w-[30%] h-[40%] bg-white/[0.01] border border-white/[0.05] rounded-[40px] backdrop-blur-[2px] transform rotate-6 pointer-events-none" />
+    </div>
+  );
+}
+
+// ==========================================
+// 4. ANIMATED ROLE
+// ==========================================
+
+function DynamicRole() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % ROLES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="h-[40px] md:h-[50px] overflow-hidden relative w-full mt-2">
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={index}
+          initial={{ y: 40, opacity: 0, filter: "blur(4px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: -40, opacity: 0, filter: "blur(4px)" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 flex items-center justify-start"
+        >
+          <span className="text-2xl md:text-3xl lg:text-4xl font-light text-[var(--color-text-secondary)] tracking-wide">
+            {ROLES[index]}
+          </span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ==========================================
+// 5. FLOATING CARDS & RIGHT COLUMN
+// ==========================================
+
+function TechCard({ skill, index, total, rawX, rawY }: { skill: string; index: number; total: number; rawX: MotionValue<number>; rawY: MotionValue<number> }) {
+  const reducedMotion = useReducedMotion();
+  
+  // Arrange in 2 concentric rings
+  const isOuter = index >= total / 2;
+  const localIndex = isOuter ? index - total / 2 : index;
+  const localTotal = total / 2;
+  
+  const angle = (localIndex / localTotal) * Math.PI * 2;
+  const radius = isOuter ? 250 : 160;
+  
+  // Base position
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+  // Create a staggered z-depth based on index
+  const z = (index % 3 - 1) * 60; // -60, 0, 60
+
+  // Animation variants
+  const floatAnimation = reducedMotion ? {} : {
+    y: [y - 15, y + 15, y - 15],
+    x: [x - 5, x + 5, x - 5],
+    rotate: [0, 3, -3, 0],
+    transition: {
+      duration: 8 + (index % 4) * 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: index * 0.2
+    } as any
+  };
+
+  return (
+    <motion.div
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      style={{
+        transformStyle: "preserve-3d",
+        z: z, // Base static depth
+      }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1.2 + index * 0.08, duration: 0.8, ease: "easeOut" }}
+    >
+      <motion.div
+        animate={floatAnimation}
+        style={{
+          // Apply rawX and rawY with a multiplier based on depth to increase parallax effect
+          x: useTransform(rawX, v => x + v * (isOuter ? 1.5 : 0.8)),
+          y: useTransform(rawY, v => y + v * (isOuter ? 1.5 : 0.8)),
+        }}
+        className="relative px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.2)] whitespace-nowrap overflow-hidden group hover:border-[var(--color-primary)]/50 hover:bg-white/[0.05] transition-colors duration-300"
+      >
+        <span className="relative z-10 text-xs sm:text-sm font-medium tracking-wide text-white/90 group-hover:text-white transition-colors">
+          {skill}
+        </span>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+      </motion.div>
     </motion.div>
   );
 }
 
-function SocialIcons() {
-  const icons = useMemo(
-    () => [
-      {
-        label: "Email",
-        href: "mailto:yashprajapati@gmail.com",
-        icon: FaEnvelope,
-      },
-      {
-        label: "LinkedIn",
-        href: "https://linkedin.com/in/yash-prajapati",
-        icon: FaLinkedin,
-      },
-      {
-        label: "GitHub",
-        href: "https://github.com/YashPrajapati989",
-        icon: FaGithub,
-      },
-    ],
-    []
-  );
-
-  return (
-    <div className="flex items-center gap-3">
-      {icons.map(({ label, href, icon: Icon }) => (
-        <a
-          key={label}
-          href={href}
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel={href.startsWith("http") ? "noreferrer" : undefined}
-          className="group inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.03)] text-[var(--color-text-primary)] shadow-[0_12px_40px_rgba(0,0,0,0.25)] backdrop-blur-[18px] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(94,234,212,0.35)] hover:shadow-[0_0_22px_rgba(94,234,212,0.12)]"
-          aria-label={label}
-        >
-          <Icon className="h-5 w-5" aria-hidden="true" />
-          <span className="sr-only">{label}</span>
-        </a>
-      ))}
-    </div>
-  );
-}
-
-function TypewriterDesignation() {
+function InteractivePortrait({ tiltX, tiltY, rawX, rawY }: { tiltX: MotionValue<number>; tiltY: MotionValue<number>; rawX: MotionValue<number>; rawY: MotionValue<number> }) {
   const reducedMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [text, setText] = useState("");
-  const [phase, setPhase] = useState<"typing" | "pausing" | "deleting">("typing");
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setIndex(0);
-      setText(designations[0]?.title ?? "");
-      setPhase("pausing");
-      return;
-    }
-
-    const current = designations[index]?.title ?? "";
-    const typingSpeed = 36; // ms per char
-    const deleteSpeed = 22; // ms per char
-
-    let t: number | undefined;
-
-    if (phase === "typing") {
-      if (text.length >= current.length) {
-        setPhase("pausing");
-        t = window.setTimeout(() => setPhase("deleting"), 1850);
-      } else {
-        t = window.setTimeout(() => {
-          setText(current.slice(0, text.length + 1));
-        }, typingSpeed);
-      }
-    } else if (phase === "pausing") {
-      t = window.setTimeout(() => setPhase("deleting"), 1850);
-    } else {
-      if (text.length === 0) {
-        const next = (index + 1) % designations.length;
-        setIndex(next);
-        setPhase("typing");
-      } else {
-        t = window.setTimeout(() => {
-          setText(current.slice(0, Math.max(0, text.length - 1)));
-        }, deleteSpeed);
-      }
-    }
-
-    return () => {
-      if (t) window.clearTimeout(t);
-    };
-  }, [index, phase, reducedMotion, text.length]);
-
-  const currentTitle = designations[index]?.title ?? "";
 
   return (
-    <div className="relative">
-      <div className="text-[length:12ch] text-xl sm:text-2xl font-bold">
-        <span className="text-gradient bg-clip-text text-transparent [background-size:240%_auto]">
-          {reducedMotion ? currentTitle : text}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function AliveBackground() {
-  const reducedMotion = useReducedMotion();
-  return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div className="relative w-full h-[450px] sm:h-[500px] md:h-[600px] lg:h-[700px] flex items-center justify-center perspective-[1200px]">
+      
+      {/* 3D Container */}
       <motion.div
-        className="absolute inset-0 bg-[var(--gradient-hero)]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      />
-
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute left-[-12%] top-[-25%] h-[640px] w-[640px] bg-[radial-gradient(circle_at_center,rgba(94,234,212,0.20),transparent_60%)]"
-          animate={reducedMotion ? undefined : { x: [0, 70, 0], y: [0, 30, 0] }}
-          transition={reducedMotion ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-[-20%] top-[-10%] h-[660px] w-[660px] bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.20),transparent_58%)]"
-          animate={reducedMotion ? undefined : { x: [0, -60, 0], y: [0, 20, 0] }}
-          transition={reducedMotion ? undefined : { duration: 13, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
-      <div className="absolute inset-0 opacity-[0.085] [background-image:linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:56px_56px]" />
-
-      <div className="absolute inset-0 opacity-[0.06] bg-[url('/file.svg')] mix-blend-overlay" />
-
-      <motion.div
-        className="absolute inset-0"
-        animate={reducedMotion ? undefined : { opacity: [0.75, 1, 0.8] }}
-        transition={reducedMotion ? undefined : { duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="absolute left-1/2 top-[-35%] h-[170%] w-[2px] -translate-x-1/2 bg-[linear-gradient(to_bottom,transparent,rgba(94,234,212,0.45),transparent)] opacity-50" />
-        <div className="absolute left-1/4 top-[-45%] h-[190%] w-[1px] bg-[linear-gradient(to_bottom,transparent,rgba(124,58,237,0.35),transparent)] opacity-45" />
-        <div className="absolute right-1/4 top-[-45%] h-[190%] w-[1px] bg-[linear-gradient(to_bottom,transparent,rgba(94,234,212,0.30),transparent)] opacity-40" />
-      </motion.div>
-
-      <div className="absolute bottom-[-120px] left-[-12%] h-[330px] w-[560px] rounded-[32px] glass opacity-75 rotate-[-7deg]" />
-      <div className="absolute bottom-[-160px] right-[-18%] h-[380px] w-[600px] rounded-[32px] glass opacity-65 rotate-[9deg]" />
-
-      <div className="pointer-events-none absolute inset-0">
-        {Array.from({ length: 18 }).map((_, idx) => {
-          const left = (idx * 37) % 100;
-          const top = (idx * 19) % 100;
-          const size = 2 + (idx % 4);
-          const delay = idx * 0.18;
-          return (
-            <motion.span
-              key={idx}
-              className="absolute rounded-full bg-[var(--color-primary)] shadow-[0_0_18px_rgba(94,234,212,0.25)]"
-              style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, opacity: 0.2 }}
-              initial={{ opacity: 0 }}
-              animate={reducedMotion ? undefined : { opacity: [0.15, 0.35, 0.15], y: [0, -14, 0] }}
-              transition={reducedMotion ? undefined : { duration: 3.8, repeat: Infinity, delay, ease: "easeInOut" }}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-type FloatingSignal = {
-  label: string;
-  tone: "cyan" | "violet" | "teal";
-};
-
-function toneToGradient(tone: FloatingSignal["tone"]) {
-  if (tone === "violet") return "from-[rgba(124,58,237,0.0)] via-[rgba(124,58,237,0.65)] to-[rgba(124,58,237,0.0)]";
-  if (tone === "teal") return "from-[rgba(94,234,212,0.0)] via-[rgba(34,211,238,0.65)] to-[rgba(94,234,212,0.0)]";
-  return "from-[rgba(94,234,212,0.0)] via-[rgba(94,234,212,0.65)] to-[rgba(94,234,212,0.0)]";
-}
-
-function AiWorkspaceScene({ tiltX, tiltY, rawX, rawY }: { tiltX: MotionValue<number>; tiltY: MotionValue<number>; rawX: MotionValue<number>; rawY: MotionValue<number>; }) {
-  const reducedMotion = useReducedMotion();
-  const uid = useId();
-
-  const signals: FloatingSignal[] = useMemo(
-    () => [
-      { label: "SQL", tone: "cyan" },
-      { label: "Python", tone: "teal" },
-      { label: "Power BI", tone: "violet" },
-      { label: "AI", tone: "cyan" },
-      { label: "Machine Learning", tone: "violet" },
-      { label: "Data Viz", tone: "teal" },
-    ],
-    []
-  );
-
-  const ringRot = reducedMotion ? undefined : { rotate: [0, 360] };
-
-  return (
-    <div className="relative mx-auto h-[480px] w-[480px] max-w-[88vw]">
-      {/* Outer holographic frame */}
-      <motion.div
-        className="absolute inset-0 rounded-[36px] border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.03)] shadow-[0_40px_110px_rgba(0,0,0,0.65)]"
-        style={{ transformStyle: "preserve-3d", rotateX: tiltX, rotateY: tiltY }}
-        initial={{ opacity: 0, scale: 0.97, y: 10 }}
+        className="relative w-full max-w-[320px] sm:max-w-[400px] aspect-[4/5] lg:aspect-square flex items-center justify-center"
+        style={{
+          rotateX: tiltX,
+          rotateY: tiltY,
+          transformStyle: "preserve-3d",
+        }}
+        initial={{ opacity: 0, scale: 0.8, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ delay: 0.75, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay: 0.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="absolute inset-0 rounded-[36px] overflow-hidden">
-          <motion.div
-            className="absolute inset-[-35%] bg-[conic-gradient(from_90deg_at_50%_50%,rgba(94,234,212,0.0),rgba(94,234,212,0.48),rgba(124,58,237,0.40),rgba(94,234,212,0.0))]"
-            style={{ filter: "blur(10px)", opacity: 0.95 }}
-            animate={ringRot}
-            transition={reducedMotion ? undefined : { duration: 10, repeat: Infinity, ease: "linear" }}
-          />
+        
+        {/* Animated Gradient Ring Behind Image */}
+        <motion.div
+          className="absolute inset-0 -m-6 sm:-m-8 rounded-[40px] opacity-40 blur-[30px]"
+          style={{ transform: "translateZ(-50px)" }}
+          animate={reducedMotion ? {} : {
+            background: [
+              "conic-gradient(from 0deg, var(--color-primary), var(--color-secondary), var(--color-primary))",
+              "conic-gradient(from 360deg, var(--color-primary), var(--color-secondary), var(--color-primary))"
+            ]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* Centerpiece Image Frame */}
+        <div 
+          className="relative w-[75%] sm:w-[70%] lg:w-[80%] aspect-[3/4] rounded-[32px] p-2 overflow-hidden shadow-2xl shadow-[var(--color-primary-muted)] group"
+          style={{ transform: "translateZ(30px)" }}
+        >
+          {/* Glass border inner glow */}
+          <div className="absolute inset-0 rounded-[32px] border border-white/20 bg-white/5 backdrop-blur-xl group-hover:bg-white/10 transition-colors duration-500" />
+          
+          <div className="relative w-full h-full rounded-[24px] overflow-hidden">
+            <Image
+              src="/images/profile/yash-profile.png.jpg"
+              alt="Yash Prajapati"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority
+              className="object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
+            />
+            
+            {/* Image Overlay lighting */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 opacity-60" />
+            
+            {/* Hover glare effect */}
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+              style={{
+                x: useTransform(rawX, [-15, 15], ["-50%", "50%"]),
+                y: useTransform(rawY, [-15, 15], ["-50%", "50%"])
+              }}
+            />
+          </div>
         </div>
 
-        {/* Glowing rings */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[0, 1, 2].map((i) => (
-            <motion.div
-              // eslint-disable-next-line react/no-array-index-key
-              key={i}
-              className="absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full border"
-              style={{ transformStyle: "preserve-3d", rotateX: tiltX, rotateY: tiltY }}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={reducedMotion ? undefined : { opacity: 1, scale: 1 }}
-              transition={{ delay: 0.9 + i * 0.12, duration: 0.8, ease: "easeOut" }}
-              // Tailwind conditional gradients
-            >
-              <div
-                className={
-                  i === 0
-                    ? "h-full w-full rounded-full border-[1px] border-[rgba(94,234,212,0.22)] [box-shadow:0_0_40px_rgba(94,234,212,0.22)]"
-                    : i === 1
-                      ? "h-full w-full rounded-full border-[1px] border-[rgba(124,58,237,0.22)] [box-shadow:0_0_40px_rgba(124,58,237,0.20)]"
-                      : "h-full w-full rounded-full border-[1px] border-[rgba(34,211,238,0.20)] [box-shadow:0_0_40px_rgba(34,211,238,0.18)]"
-                }
-              />
-              {reducedMotion ? null : (
-                <motion.div
-                  className="absolute inset-[10%] rounded-full border border-[rgba(255,255,255,0.10)]"
-                  animate={{ rotate: i % 2 === 0 ? [0, 360] : [0, -360] }}
-                  transition={{ duration: 7 + i * 0.6, repeat: Infinity, ease: "linear" }}
-                />
-              )}
-            </motion.div>
+        {/* Orbiting Tech Cards */}
+        <div className="absolute inset-0 pointer-events-none hidden sm:block" style={{ transformStyle: "preserve-3d" }}>
+          {SKILLS.map((skill, idx) => (
+            <TechCard 
+              key={skill} 
+              skill={skill} 
+              index={idx} 
+              total={SKILLS.length} 
+              rawX={rawX} 
+              rawY={rawY} 
+            />
           ))}
         </div>
 
-        {/* Portrait centerpiece */}
-        <div className="absolute left-1/2 top-1/2 h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.03)] overflow-hidden shadow-[0_22px_70px_rgba(0,0,0,0.55)]">
-          <div className="absolute inset-0 opacity-30 [mask-image:radial-gradient(circle_at_50%_30%,black,transparent_65%)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(124,58,237,0.22),transparent_60%)]" />
-          </div>
-
-          <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.18)_35%,transparent_60%)]" />
-
-          <div className="absolute inset-0">
-            <motion.div
-              className="h-full w-full"
-              style={{
-                transformStyle: "preserve-3d",
-                rotateX: tiltX,
-                rotateY: tiltY,
-              }}
-              aria-hidden="true"
-            />
-          </div>
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Image
-              src="/images/profile/yash-profile.png.jpg"
-              alt="Yash Prajapati portrait"
-              width={420}
-              height={420}
-              priority
-              className="h-[84%] w-[84%] object-cover object-center rounded-[22px] drop-shadow-[0_0_28px_rgba(94,234,212,0.20)]"
-            />
-          </div>
-        </div>
-
-        {/* Floating signal cards */}
-        <div className="absolute inset-0 pointer-events-none">
-          {signals.map((s, i) => {
-            const angle = (i / signals.length) * Math.PI * 2;
-            const radiusX = 210;
-            const radiusY = 140;
-            const x = Math.cos(angle) * radiusX;
-            const y = Math.sin(angle) * radiusY;
-            const z = (i % 3) * 18;
-            const delay = 0.95 + i * 0.06;
-            const grad = toneToGradient(s.tone);
-
-            return (
-              <motion.div
-                key={s.label}
-                className="absolute left-1/2 top-1/2"
-                style={{ transformStyle: "preserve-3d", transform: `translate3d(${x}px, ${y}px, ${z}px)` }}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={reducedMotion ? undefined : { opacity: 1, scale: 1 }}
-                transition={{ delay, duration: 0.75, ease: "easeOut" }}
-              >
-                <div className="relative rounded-[18px] border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] backdrop-blur-[18px] px-4 py-2">
-                  <div
-                    className={
-                      "absolute inset-0 rounded-[18px] opacity-0 transition-opacity duration-300 " +
-                      "bg-[radial-gradient(circle_at_30%_20%,rgba(94,234,212,0.22),transparent_55%)]"
-                    }
-                  />
-                  <div className="relative">
-                    <div className="text-[13px] font-semibold tracking-wide text-[var(--color-text-primary)]">{s.label}</div>
-                    <div className={`mt-1 h-[1px] w-14 bg-gradient-to-r ${grad} opacity-80`} />
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Connected data network (SVG) */}
-        <svg
-          className="absolute inset-0 pointer-events-none"
-          viewBox="0 0 480 480"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id={`${uid}-line`} x1="0" y1="0" x2="480" y2="480">
-              <stop offset="0%" stopColor="rgba(94,234,212,0.0)" />
-              <stop offset="35%" stopColor="rgba(94,234,212,0.65)" />
-              <stop offset="70%" stopColor="rgba(124,58,237,0.35)" />
-              <stop offset="100%" stopColor="rgba(124,58,212,0.0)" />
-            </linearGradient>
-            <filter id={`${uid}-glow`} x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          {Array.from({ length: 11 }).map((_, idx) => {
-            const a = (idx * 37) % 360;
-            const r1 = 120 + (idx % 4) * 22;
-            const r2 = 160 + (idx % 5) * 18;
-            const x1 = 240 + Math.cos((a * Math.PI) / 180) * r1;
-            const y1 = 240 + Math.sin((a * Math.PI) / 180) * (r1 * 0.72);
-            const x2 = 240 + Math.cos(((a + 60) * Math.PI) / 180) * r2;
-            const y2 = 240 + Math.sin(((a + 60) * Math.PI) / 180) * (r2 * 0.72);
-            const opacity = 0.18 + (idx % 4) * 0.05;
-            return (
-              <motion.line
-                // eslint-disable-next-line react/no-array-index-key
-                key={idx}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke={`url(#${uid}-line)`}
-                strokeWidth={1.1 + (idx % 3) * 0.3}
-                opacity={opacity}
-                filter={`url(#${uid}-glow)`}
-                initial={reducedMotion ? undefined : { pathLength: 0, opacity: 0 }}
-                animate={
-                  reducedMotion
-                    ? undefined
-                    : { pathLength: 1, opacity: [opacity * 0.7, opacity, opacity * 0.75] }
-                }
-                transition={
-                  reducedMotion
-                    ? undefined
-                    : {
-                        duration: 1.8 + (idx % 3) * 0.35,
-                        delay: 1.2 + idx * 0.08,
-                        repeat: Infinity,
-                        repeatDelay: 3,
-                        ease: "easeInOut",
-                      }
-                }
-              />
-            );
-          })}
-        </svg>
-
-        {/* Cursor-reactive lighting mask */}
-        <motion.div
-          className="absolute inset-0 rounded-[36px]"
-          style={{
-            background:
-              "radial-gradient(380px 260px at 50% 35%, rgba(94,234,212,0.20), transparent 60%), radial-gradient(340px 250px at 45% 60%, rgba(124,58,237,0.16), transparent 62%)",
-            transformStyle: "preserve-3d",
-          }}
-          animate={reducedMotion ? undefined : { opacity: [0.85, 1, 0.9] }}
-          transition={reducedMotion ? undefined : { duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Foreground particles */}
-        <div className="absolute inset-0 pointer-events-none">
-          {Array.from({ length: 22 }).map((_, idx) => {
-            const left = (idx * 23) % 100;
-            const top = (idx * 41) % 100;
-            const size = 2 + (idx % 4) * 0.75;
-            const delay = idx * 0.11;
-            const drift = 18 + (idx % 5) * 10;
-
-            return (
-              <motion.span
-                key={idx}
-                className="absolute rounded-full bg-[var(--color-primary)]"
-                style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, opacity: 0.18 }}
-                initial={{ opacity: 0, y: 0 }}
-                animate={
-                  reducedMotion
-                    ? undefined
-                    : {
-                        opacity: [0.12, 0.35, 0.12],
-                        y: [0, -drift, 0],
-                      }
-                }
-                transition={
-                  reducedMotion
-                    ? undefined
-                    : { duration: 4 + (idx % 4) * 0.35, repeat: Infinity, delay, ease: "easeInOut" }
-                }
-              />
-            );
-          })}
-        </div>
-
-        {/* Parallax shift */}
-        <motion.div
-          className="absolute inset-0 rounded-[36px] pointer-events-none"
-          style={{
-            transformStyle: "preserve-3d",
-            x: rawX,
-            y: rawY,
-          }}
-          aria-hidden="true"
-        />
       </motion.div>
-
-      {/* Mouse-reactive micro legend */}
-      <div className="absolute -bottom-1 left-1/2 w-full -translate-x-1/2 px-6">
-        <div className="flex items-center justify-center gap-2 text-[12px] text-[var(--color-text-muted)]">
-          <span className="inline-block h-[7px] w-[7px] rounded-full bg-[var(--color-primary)] shadow-[0_0_16px_rgba(94,234,212,0.35)]" />
-          <span>Live AI workspace · responsive to your cursor</span>
-        </div>
-      </div>
     </div>
   );
 }
 
-function HeroStats() {
-  const reducedMotion = useReducedMotion();
 
-  const items = useMemo(
-    () => [
-      { label: "Projects", value: 20 },
-      { label: "Technologies", value: 10 },
-      { label: "Internships", value: 4 },
-      { label: "Commitment", value: 100 },
-    ],
-    []
-  );
-
-  return (
-    <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-      {items.map((it, idx) => {
-        const isPercent = it.label === "Commitment";
-        return (
-          <div key={it.label} className="rounded-[20px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] backdrop-blur-[18px] px-5 py-4 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
-            <motion.div
-              className="text-[var(--color-text-primary)] font-semibold"
-              initial={{ opacity: 0, y: 6 }}
-              animate={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 + idx * 0.08, duration: 0.6, ease: "easeOut" }}
-            >
-              {reducedMotion ? (
-                <span className="text-3xl">{it.value}{isPercent ? "%" : "+"}</span>
-              ) : (
-                <AnimatedCounter target={it.value} suffix={isPercent ? "%" : "+"} />
-              )}
-            </motion.div>
-            <div className="mt-2 text-xs tracking-[0.14em] uppercase text-[var(--color-text-muted)]">
-              {it.label}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const reducedMotion = useReducedMotion();
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setValue(target);
-      return;
-    }
-
-    const duration = 900; // ms
-    const start = performance.now();
-
-    let rafId: number | undefined;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setValue(Math.round(target * eased));
-      if (t < 1) rafId = window.requestAnimationFrame(tick);
-    };
-
-    rafId = window.requestAnimationFrame(tick);
-    return () => {
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, [reducedMotion, target]);
-
-  return (
-    <span className="text-3xl">
-      {value}
-      {suffix}
-    </span>
-  );
-}
-
-function HeroCTA() {
-  return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <a
-        href="#projects"
-        className={buttonVariants({
-          variant: "primary",
-          size: "lg",
-          className:
-            "group w-full sm:w-auto transition-all duration-300 hover:shadow-[0_0_28px_rgba(94,234,212,0.35)] relative overflow-hidden",
-        })}
-      >
-        <span className="relative inline-flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-[rgba(11,15,25,0.6)] shadow-[0_0_0_rgba(0,0,0,0)]" aria-hidden="true" />
-          Explore My Work
-        </span>
-        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-        <span
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          aria-hidden="true"
-          style={{
-            background:
-              "radial-gradient(180px 80px at 30% 0%, rgba(255,255,255,0.28), transparent 60%)",
-          }}
-        />
-      </a>
-
-      <a
-        href="/resume.pdf"
-        download
-        className={buttonVariants({
-          variant: "outline",
-          size: "lg",
-          className:
-            "group w-full sm:w-auto transition-all duration-300 hover:border-[rgba(94,234,212,0.75)] relative overflow-hidden",
-        })}
-      >
-        <span className="relative inline-flex items-center gap-2">
-          <span className="rounded-full border border-[rgba(94,234,212,0.55)] px-2 py-1 text-[11px] text-[rgba(94,234,212,0.95)] bg-[rgba(94,234,212,0.08)]" aria-hidden="true">PDF</span>
-          Download Resume
-        </span>
-        <Download className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
-        <span
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(120deg, transparent 0%, rgba(94,234,212,0.25) 35%, transparent 60%)",
-          }}
-        />
-      </a>
-    </div>
-  );
-}
-
-function HeroLeft() {
-  return (
-    <div className="lg:col-span-6">
-      <motion.div
-        variants={staggerContainerVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col gap-6"
-      >
-        <motion.div
-          className="w-fit"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Badge variant="success" className="px-3 py-1">
-            <span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-[var(--color-success)] animate-pulse" />
-            AI · Data Science · Engineering
-          </Badge>
-        </motion.div>
-
-        <motion.div
-          className="flex flex-col gap-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="overflow-hidden">
-            <motion.div
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Heading as="h1" gradient className="tracking-tight">
-                HI, I&apos;M <span className="text-[inherit]">YASH</span> PRASJAPATI
-              </Heading>
-            </motion.div>
-          </div>
-
-          <div className="pt-1">
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-              <div className="text-[var(--color-text-secondary)] text-sm uppercase tracking-[0.22em]">
-                Specialization
-              </div>
-              <TypewriterDesignation />
-            </div>
-
-            <div className="mt-3">
-              <Text
-                variant="lead"
-                className="text-[var(--color-text-secondary)] max-w-xl !leading-relaxed"
-              >
-                Building intelligent systems that turn messy signals into decisions—engineered for speed, accuracy, and business impact.
-              </Text>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25, ease: "easeOut" }}
-          className="flex flex-col gap-6"
-        >
-          <HeroCTA />
-          <HeroStats />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-        >
-          <SocialIcons />
-        </motion.div>
-      </motion.div>
-
-      <ScrollIndicator />
-    </div>
-  );
-}
+// ==========================================
+// 6. MAIN HERO COMPONENT
+// ==========================================
 
 export function Hero() {
-  const cursor = useCursorParallax(12);
+  const { ref, tiltX, tiltY, rawX, rawY } = useCursorParallax(20);
   const reducedMotion = useReducedMotion();
 
+  // Entrance animations config
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants: any = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+  };
+
   return (
-    <Section id="home" className="relative flex min-h-[100vh] items-stretch">
-      <AliveBackground />
+    <Section id="home" className="relative min-h-[100vh] flex items-center overflow-hidden pt-24 pb-16 lg:pt-0 lg:pb-0">
+      
+      {/* 1. Background Layers */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        className="absolute inset-0"
+      >
+        <BackgroundMesh />
+      </motion.div>
 
-      <Container>
-        <motion.div
-          ref={cursor.ref}
-          className="relative grid w-full grid-cols-1 items-center gap-10 pt-[18px] pb-[26px] lg:grid-cols-12 lg:gap-12"
-          initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-          animate={reducedMotion ? false : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+      <Container className="relative z-10 w-full h-full flex flex-col justify-center">
+        
+        {/* Parallax Container wrapping the grid */}
+        <div 
+          ref={ref} 
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full min-h-[calc(100vh-8rem)]"
         >
-          <HeroLeft />
+          
+          {/* LEFT COLUMN: Content */}
+          <motion.div 
+            className="flex flex-col items-start text-left max-w-2xl lg:col-span-5 xl:col-span-6 z-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+          >
+            {/* Greeting */}
+            <motion.div variants={itemVariants} className="mb-4">
+              <span className="inline-block py-1.5 px-4 rounded-full bg-[var(--color-primary-muted)] border border-[var(--color-primary)]/20 text-[var(--color-primary)] text-sm font-semibold tracking-widest uppercase shadow-[0_0_20px_rgba(94,234,212,0.15)]">
+                Hello, I am
+              </span>
+            </motion.div>
 
-          <div className="lg:col-span-6 flex items-center justify-center">
-            <AiWorkspaceScene tiltX={cursor.tiltX} tiltY={cursor.tiltY} rawX={cursor.rawX} rawY={cursor.rawY} />
+            {/* Name */}
+            <motion.div variants={itemVariants} className="mb-2">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/40 drop-shadow-lg">
+                YASH
+                <br className="hidden sm:block" />
+                <span className="sm:ml-4 text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]">
+                  PRAJAPATI
+                </span>
+              </h1>
+            </motion.div>
+
+            {/* Role */}
+            <motion.div variants={itemVariants} className="w-full mb-6">
+              <DynamicRole />
+            </motion.div>
+
+            {/* Value Prop & Description */}
+            <motion.div variants={itemVariants} className="mb-10">
+              <p className="text-lg md:text-xl font-medium text-white/90 mb-3 leading-relaxed">
+                Building intelligent systems that turn messy signals into precise decisions.
+              </p>
+              <Text variant="muted" className="text-base md:text-lg max-w-lg leading-relaxed">
+                Engineered for speed, accuracy, and undeniable business impact. I design and deploy end-to-end data pipelines and machine learning architectures.
+              </Text>
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 mb-12 w-full sm:w-auto">
+              <a
+                href="#projects"
+                className={buttonVariants({
+                  variant: "primary",
+                  size: "lg",
+                  className: "group w-full sm:w-auto relative overflow-hidden transition-all hover:scale-105 shadow-[0_0_30px_rgba(94,234,212,0.25)] hover:shadow-[0_0_50px_rgba(94,234,212,0.4)]"
+                })}
+              >
+                <span className="relative z-10 flex items-center gap-2 font-semibold">
+                  View My Work
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite] pointer-events-none" />
+              </a>
+
+              <a
+                href="/resume.pdf"
+                download
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "lg",
+                  className: "group w-full sm:w-auto backdrop-blur-md bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-[var(--color-primary)]/50 transition-all hover:scale-105"
+                })}
+              >
+                <span className="flex items-center gap-2 font-semibold">
+                  Download Resume
+                  <Download className="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1" />
+                </span>
+              </a>
+            </motion.div>
+
+            {/* Socials */}
+            <motion.div variants={itemVariants} className="flex items-center gap-4">
+              {[
+                { label: "LinkedIn", icon: FaLinkedin, href: "https://linkedin.com/in/yash-prajapati" },
+                { label: "GitHub", icon: FaGithub, href: "https://github.com/YashPrajapati989" },
+                { label: "Email", icon: FaEnvelope, href: "mailto:yashprajapati@gmail.com" },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-white/70 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/50 hover:bg-[var(--color-primary)]/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(94,234,212,0.15)]"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </motion.div>
+
+          </motion.div>
+
+          {/* RIGHT COLUMN: Interactive Portrait */}
+          <div className="w-full flex justify-center items-center h-full lg:col-span-7 xl:col-span-6 mt-12 lg:mt-0">
+            <InteractivePortrait tiltX={tiltX} tiltY={tiltY} rawX={rawX} rawY={rawY} />
           </div>
-        </motion.div>
+
+        </div>
       </Container>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 1 }}
+        onClick={() => {
+          document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-semibold hidden sm:block">Explore More</span>
+        <motion.div 
+          animate={reducedMotion ? {} : { y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-7 h-11 sm:w-8 sm:h-12 rounded-full border border-white/20 flex items-start justify-center p-2 backdrop-blur-sm bg-white/5 hover:border-white/40 transition-colors"
+        >
+          <motion.div className="w-1 h-2 sm:h-3 bg-[var(--color-primary)] rounded-full shadow-[0_0_10px_rgba(94,234,212,0.8)]" />
+        </motion.div>
+      </motion.div>
+
+      {/* Global Shimmer Keyframe */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes shimmer {
+          100% { transform: translateX(100%); }
+        }
+      `}} />
     </Section>
   );
 }
-
-
